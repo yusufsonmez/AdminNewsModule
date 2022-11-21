@@ -1,0 +1,42 @@
+@model IEnumerable<AdminNewsModule.Models.News>
+@{
+    ViewData["Title"] = "News";
+}
+
+<table class="table table-hover">
+    <thead>
+        <th scope="col">Id</th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <a href="/News/News" class="btn btn-success">Haber Ekle</a>
+        @foreach (var item in Model)
+        {
+            <tr>
+            <th scope="row">@item.Id</th>
+            <td>@item.Title</td>
+            <td>
+                @if(item.IsPublish){
+                    <a class="btn btn-success">Yayınlandı</a>
+                }else{
+                <a class="btn btn-light" asp-route-id="@item.Id" asp-action="Publish">Yayınla</a>
+                }
+            </td>
+            <td><a class="btn btn-danger" asp-route-id="@item.Id" asp-action="DeleteNews">Sil</a>
+             <a href="/News/News"
+             class="btn btn-secondary" onclick="updateForm(@item.Id)" type="button" >Güncelle
+             </a>
+            </td> 
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts{
+    <script>
+        function updateForm(Id){
+            fetch('/News/News?Id='+Id)
+        }
+    </script>
+}
